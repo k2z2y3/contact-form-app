@@ -2,22 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SearchContactRequest;
 use App\Models\Category;
 use App\Models\Contact;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 
+
 class AdminController extends Controller
 {
-    public function index(Request $request)
+    public function index(SearchContactRequest $request)
     {
+        $validated = $request->validated();
+
         $categories = Category::all();
         $tags = Tag::all();
 
         $query = Contact::with(['category', 'tags']);
         // キーワード（名前・メールアドレス）
-        if ($request->filled('keyword')) {
-            $keyword = $request->input('keyword');
+        if (!empty($validated['keyword'] ?? null)) {
+            $keyword = $validated['keyword'];
             $query->where(function ($q) use ($keyword) {
                 $q->where('first_name', 'like', "%{$keyword}%")
                     ->orWhere('last_name', 'like', "%{$keyword}%")
@@ -26,8 +30,8 @@ class AdminController extends Controller
         }
 
         // 性別（0は「すべて」想定で除外）
-        if ($request->filled('gender') && $request->input('gender') !== '0') {
-            $query->where('gender', $request->input('gender'));
+        if (!empty($validated['gender'] ?? null) && $validated['gender'] !== '0') {
+            $query->where('gender', $validated['gender']);
         }
 
         // お問い合わせの種類

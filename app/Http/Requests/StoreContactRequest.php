@@ -29,7 +29,7 @@ class StoreContactRequest extends FormRequest
         // 3つすべて空なら null（または ''）にして required で弾けるようにする
         if ($tel1 !== '' || $tel2 !== '' || $tel3 !== '') {
             $this->merge([
-                'tel' => $tel1.$tel2.$tel3,
+                'tel' => $tel1 . $tel2 . $tel3,
             ]);
 
             return;
