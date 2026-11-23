@@ -63,4 +63,69 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 ## License
 
+
+# COACHTECH お問い合わせフォーム
+
+## 概要
+お問い合わせの送信・確認から、管理者による問い合わせ一覧の確認・検索・エクスポート、タグ管理、および Contact API による連携までを行う Web アプリケーションです。
+
+### 主な実装機能
+- **お問い合わせフォーム機能**: 入力画面、確認画面、送信処理、フォームリクエストバリデーション
+- **管理画面（`/admin`）**: お問い合わせ一覧の表示、絞り込み検索、詳細確認、エクスポート機能
+- **タグ管理機能**: タグの作成・編集・削除（多対多リレーションによる紐付け）
+- **Contact API**: お問い合わせ関連の API エンドポイントおよび Feature / Unit テスト
+
+---
+
+## ER図
+
+```mermaid
+erDiagram
+    CONTACTS ||--o{ CONTACT_TAGS : "has"
+    TAGS ||--o{ CONTACT_TAGS : "has"
+    CONTACTS {
+        bigint id PK
+        string last_name
+        string first_name
+        tinyint gender
+        string email
+        string tel
+        string address
+        string building
+        text detail
+        timestamp created_at
+        timestamp updated_at
+    }
+    TAGS {
+        bigint id PK
+        string name
+        timestamp created_at
+        timestamp updated_at
+    }
+    CONTACT_TAGS {
+        bigint id PK
+        bigint contact_id FK
+        bigint tag_id FK
+        timestamp created_at
+        timestamp updated_at
+    }
+使用技術
+フレームワーク / 言語: Laravel 10 / PHP
+
+フロントエンド: Blade / Tailwind CSS / Vite / JavaScript
+
+データベース: MySQL（Docker Compose / Sail 環境）
+
+インフラ・開発環境: Docker / Laravel Sail / phpMyAdmin
+
+テスト: PHPUnit（Unit / Feature テスト）
+
+開発環境URL
+アプリケーション: http://localhost（または http://100.115.92.201）
+
+phpMyAdmin: http://localhost:8080
+
+作成者　伊藤はるか
+
+
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
