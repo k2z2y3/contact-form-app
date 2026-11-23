@@ -125,6 +125,18 @@ erDiagram
 
 phpMyAdmin: http://localhost:8080
 
+環境構築手順リポジトリのクローンBashgit clone [https://github.com/k2z2y3/contact-form-app](https://github.com/k2z2y3/contact-form-app)
+cd contact-form-app
+環境変数ファイルの作成Bashcp .env.example .env
+必要に応じて .env のデータベース設定や APP_URL を調整してください。依存パッケージのインストール＆コンテナ起動Bashcomposer install
+./vendor/bin/sail up -d
+アプリケーションキーの生成・マイグレーション・シーディングBash./vendor/bin/sail artisan key:generate
+./vendor/bin/sail artisan migrate --seed
+フロントエンドアセットのビルドBash./vendor/bin/sail npm install
+./vendor/bin/sail npm run build
+テストの実行Bash./vendor/bin/sail artisan test
+APIエンドポイント一覧メソッドパス概要GET/api/user認証済みユーザー情報の取得（auth:sanctum）GET/api/v1/contactsお問い合わせ一覧の取得POST/api/v1/contactsお問い合わせの新規作成GET/api/v1/contacts/{contact}指定したお問い合わせの詳細取得PUT / PATCH/api/v1/contacts/{contact}指定したお問い合わせの更新DELETE/api/v1/contacts/{contact}指定したお問い合わせの削除作成者
+
 作成者　伊藤はるか
 
 
